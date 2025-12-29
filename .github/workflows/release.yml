@@ -35,8 +35,15 @@ jobs:
           export GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
           export GIT_BUILD=$(git rev-list --count HEAD || echo "0" )
           echo "GIT TAG: " ${GIT_TAG} " - GIT BUILD " ${GIT_BUILD}
-          export APP_VERSION=${GIT_TAG}
-          export APP_BUILD=${GIT_BUILD}
+          
+          cat > "kfsNotes/AppInfo.swift" <<EOF
+struct AppInfo {
+    static let version = "$GIT_TAG"
+    static let build = "$GIT_BUILD"
+    static let full: String = "\(version) (\(build))"
+}
+EOF
+          cat kfsNotes/AppInfo.swift
 
           xcodebuild \
             -scheme kfsNotes \
