@@ -33,21 +33,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let menu = NSMenu()
 
-        menu.addItem(
-            NSMenuItem(
-                title: "Save",
-                action: #selector(openSave),
-                keyEquivalent: "s"
-            )
+        let saveMenu = NSMenuItem(
+            title: "Save",
+            action: #selector(openSave),
+            keyEquivalent: "s"
         )
+        saveMenu.keyEquivalentModifierMask = [.command, .option]
+        
+        menu.addItem(saveMenu)
+        
+        let findMenu = NSMenuItem(
+            title: "Find",
+            action: #selector(openSearch),
+            keyEquivalent: "f"
+        )
+        findMenu.keyEquivalentModifierMask = [.command, .option]
 
-        menu.addItem(
-            NSMenuItem(
-                title: "Find",
-                action: #selector(openSearch),
-                keyEquivalent: "f"
-            )
-        )
+        menu.addItem(findMenu)
 
         menu.addItem(.separator())
 

@@ -126,13 +126,21 @@ class SaveViewController: NSViewController {
     }
 
     // MARK: - Clipboard
+    
+    func extractFirstURL(from text: String) -> URL? {
+        let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let range = NSRange(text.startIndex..., in: text)
+        
+        let match = detector?.firstMatch(in: text, options: [], range: range)
+        return match?.url
+    }
 
     private func loadFromClipboard() {
         let pb = NSPasteboard.general
         guard let content = pb.string(forType: .string) else { return }
 
-        if content.contains("teams.microsoft.com/l/message") {
-            linkField.stringValue = content
+        if let url = extractFirstURL(from: content) {
+            linkField.stringValue = url.absoluteString
         } else {
             textView.string = content
         }

@@ -23,15 +23,16 @@ final class SearchViewController: NSViewController {
     private let noteField = NSTextField()
 
     private let saveButton = NSButton(title: "Save", target: nil, action: nil)
+    private let closeButton = NSButton(title: "Close", target: nil, action: nil)
     
     private let openLinkButton = NSButton(
         image: NSImage(systemSymbolName: "arrow.up.right.square", accessibilityDescription: "Open link")!,
-        target: self,
+        target: nil,
         action: #selector(openLink)
     )
     let helpButton = NSButton(
         image: NSImage(systemSymbolName: "questionmark.circle", accessibilityDescription: "Search help")!,
-        target: self,
+        target: nil,
         action: #selector(showSearchHelp)
     )
 
@@ -62,10 +63,17 @@ final class SearchViewController: NSViewController {
         searchField.action = #selector(performSearch)
         searchField.toolTip = "Use AND, OR, NOT, quotes for phrases, * for prefix"
 
+        // Close Button
+        closeButton.target = self
+        closeButton.action = #selector(close)
+        closeButton.keyEquivalent = "w"
+        closeButton.keyEquivalentModifierMask = [.command]
+
         
         //search help
         helpButton.bezelStyle = .texturedRounded
         helpButton.isBordered = false
+        helpButton.target = self
         helpButton.toolTip = "Search syntax help"
         
         // link button
@@ -107,23 +115,33 @@ final class SearchViewController: NSViewController {
         textScroll.borderType = .bezelBorder
 
         tagsField.placeholderString = "tags"
+        tagsField.toolTip = "Tags"
         linkField.placeholderString = "link"
+        linkField.toolTip = "link"
         noteField.placeholderString = "note"
+        noteField.toolTip = "note"
 
         saveButton.target = self
         saveButton.action = #selector(saveChanges)
+        saveButton.keyEquivalent = "s"
+        saveButton.keyEquivalentModifierMask = [.command]
+
 
         // Layout
         let linkStack = NSStackView(views: [linkField, openLinkButton])
         linkStack.orientation = .horizontal
         linkStack.spacing = 6
         
+        let buttonsStack = NSStackView(views: [saveButton, closeButton])
+        buttonsStack.orientation = .horizontal
+        buttonsStack.spacing = 6
+        
         let editorStack = NSStackView(views: [
             textScroll,
             tagsField,
             linkStack,
             noteField,
-            saveButton
+            buttonsStack
         ])
         editorStack.orientation = .vertical
         editorStack.spacing = 8
@@ -290,4 +308,7 @@ final class SearchViewController: NSViewController {
         return popover
     }()
     
+    @objc private func close() {
+        self.view.window?.close()
+    }
 }
