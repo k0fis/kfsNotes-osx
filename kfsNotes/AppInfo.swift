@@ -5,18 +5,11 @@
 //  Created by Pavel Dřímalka on 29.12.2025.
 //
 
-struct AppInfo {
-    #if APP_VERSION
-    static let version = APP_VERSION
-    #else
-    static let version = "v0.0.0"
-    #endif
+import Foundation
 
-    #if APP_BUILD
-    static let build = APP_BUILD
-    #else
-    static let build = "0"
-    #endif
+struct AppInfo {
+    static let version = ProcessInfo.processInfo.environment["APP_VERSION"] ?? "v0.0.0"
+    static let build = ProcessInfo.processInfo.environment["APP_BUILD"] ?? "0"
 
     static let full: String = "\(version) (\(build))"
 }

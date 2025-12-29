@@ -35,12 +35,13 @@ jobs:
           export GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
           export GIT_BUILD=$(git rev-list --count HEAD || echo "0" )
           echo "GIT TAG: " ${GIT_TAG} " - GIT BUILD " ${GIT_BUILD}
+          export APP_VERSION=${GIT_TAG}
+          export APP_BUILD=${GIT_BUILD}
 
           xcodebuild \
             -scheme kfsNotes \
             -configuration Release \
-            -derivedDataPath build \
-            OTHER_SWIFT_FLAGS="-DAPP_VERSION=\"${GIT_TAG}\" -DAPP_BUILD=\"${GIT_BUILD}\" " 
+            -derivedDataPath build 
 
       - name: Codesign app
         run: |
