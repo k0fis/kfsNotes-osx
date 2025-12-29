@@ -60,8 +60,7 @@ jobs:
           files: kfsNotes.app.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Calculate SHA256
+      - name: Calculate SHA256
         run: |
           shasum -a 256 kfsNotes.app.zip | awk '{print $1}' > sha.txt
       - name: Checkout Homebrew tap
@@ -70,7 +69,6 @@ jobs:
           repository: k0fis/homebrew-kfsnotes
           token: ${{ secrets.TAP_GITHUB_TOKEN }}
           path: tap
-
       - name: Update cask
         run: |
           VERSION="${GITHUB_REF#refs/tags/v}"
