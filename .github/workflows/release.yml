@@ -1,0 +1,60 @@
+name: Build & Release macOS App
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Keychain
+        run: |
+          echo "$CERT_P12" | base64 --decode > cert.p12
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security import cert.p12 -k build.keychain -P "$CERT_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+        env:
+          CERT_P12: ${{ secrets.CERT_P12 }}
+          CERT_PASSWORD: ${{ secrets.CERT_PASSWORD }}
+
+      - name: Build app
+        run: |
+          xcodebuild \
+            -scheme kfsNotes \
+            -configuration Release \
+            -derivedDataPath build
+
+      - name: Codesign app
+        run: |
+          APP="build/Build/Products/Release/kfsNotes.app"
+          xattr -cr "$APP"
+
+          codesign --force --deep \
+            --options runtime \
+            --timestamp=none \
+            --sign "Pavel Dřímalka" \
+            "$APP"
+
+          codesign --verify --deep --strict "$APP"
+
+      - name: Zip app
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent \
+            build/Build/Products/Release/kfsNotes.app \
+            kfsNotes.app.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: kfsNotes.app.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
