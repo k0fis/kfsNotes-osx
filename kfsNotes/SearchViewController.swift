@@ -108,7 +108,7 @@ final class SearchViewController: NSViewController {
 
         // Editor
         textView.isRichText = false
-        textView.font = .systemFont(ofSize: 13)
+        //textView.font = .systemFont(ofSize: 13)
         textView.isEditable = true
         textScroll.documentView = textView
         textScroll.hasVerticalScroller = true

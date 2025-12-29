@@ -30,7 +30,7 @@ class SaveViewController: NSViewController {
 
         // TextView (multiline)
         textView.isRichText = false
-        textView.font = NSFont.systemFont(ofSize: 13)
+        //textView.font = NSFont.systemFont(ofSize: 13)
         textView.isVerticallyResizable = true
         textView.textContainerInset = NSSize(width: 6, height: 6)
         textView.isAutomaticTextCompletionEnabled = false
@@ -144,7 +144,7 @@ class SaveViewController: NSViewController {
         if let url = extractFirstURL(from: content) {
             linkField.stringValue = url.absoluteString
         } else {
-            textView.string = content
+          //  textView.string = content
         }
     }
     
