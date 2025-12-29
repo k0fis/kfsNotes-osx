@@ -1,10 +1,3 @@
-//
-//  FormTextView.swift
-//  kfsNotes
-//
-//  Created by Pavel Dřímalka on 27.12.2025.
-//
-
 import Cocoa
 
 final class FormTextView: NSTextView {
@@ -26,10 +19,34 @@ final class FormTextView: NSTextView {
             .font: font!
         ]
     }
-    
+
+    // Při nastavování stringu vždy čistý text a správné atributy
+    override var string: String {
+        didSet {
+            applyPlainAttributes()
+        }
+    }
+
+    private func applyPlainAttributes() {
+        guard let textStorage = textStorage else { return }
+        textStorage.setAttributedString(
+            NSAttributedString(
+                string: string,
+                attributes: [
+                    .foregroundColor: NSColor.labelColor,
+                    .font: font!
+                ]
+            )
+        )
+        typingAttributes = [
+            .foregroundColor: NSColor.labelColor,
+            .font: font!
+        ]
+    }
+
+    // Vložený text přes paste nebo insertText bude vždy plain
     override func insertText(_ insertString: Any, replacementRange: NSRange) {
         let plain: String
-
         if let attr = insertString as? NSAttributedString {
             plain = attr.string
         } else if let str = insertString as? String {
@@ -37,38 +54,27 @@ final class FormTextView: NSTextView {
         } else {
             return
         }
-
         super.insertText(plain, replacementRange: replacementRange)
     }
-    
-    override func didChangeText() {
-        super.didChangeText()
 
-        textStorage?.setAttributedString(
-            NSAttributedString(
-                string: string,
-                attributes: typingAttributes
-            )
-        )
+    override func paste(_ sender: Any?) {
+        let pb = NSPasteboard.general
+        if let string = pb.string(forType: .string) {
+            self.string = string // vyvolá didSet a applyPlainAttributes()
+        }
     }
-    
+
     override func keyDown(with event: NSEvent) {
-        // TAB
-        if event.keyCode == 48, !event.modifierFlags.contains(.shift) {
-            window?.selectNextKeyView(nil)
+        if event.keyCode == 48 { // TAB
+            if event.modifierFlags.contains(.shift) {
+                window?.selectPreviousKeyView(nil)
+            } else {
+                window?.selectNextKeyView(nil)
+            }
             return
         }
-
-        // Shift+TAB
-        if event.keyCode == 48, event.modifierFlags.contains(.shift) {
-            window?.selectPreviousKeyView(nil)
-            return
-        }
-
         super.keyDown(with: event)
     }
 
-    override var acceptsFirstResponder: Bool {
-        true
-    }
+    override var acceptsFirstResponder: Bool { true }
 }
