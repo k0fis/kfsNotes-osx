@@ -60,7 +60,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA8E90CD2EFE016B00E664E9 /* Build configuration list for PBXNativeTarget "kfsNotes" */;
 			buildPhases = (
-				FA31BF9E2F03277C0002BF24 /* Run Script */,
 				FA8E90BB2EFE016A00E664E9 /* Sources */,
 				FA8E90BC2EFE016A00E664E9 /* Frameworks */,
 				FA8E90BD2EFE016A00E664E9 /* Resources */,
@@ -123,28 +122,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		FA31BF9E2F03277C0002BF24 /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				kfsNotes/Generated/AppInfo.swift,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\nOUTPUT_DIR=\"${SRCROOT}/kfsNotes/Generated\"\nmkdir -p \"$OUTPUT_DIR\"\n\nOUTPUT_FILE=\"$OUTPUT_DIR/AppInfo.swift\"\n\n# Git tag a build\nGIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo \"v0.0.0\")\nGIT_BUILD=$(git rev-list --count HEAD || echo \"0\")\n\n# generuj Swift soubor\ncat > \"$OUTPUT_FILE\" <<EOF\n// This file is auto-generated at build time\nstruct AppInfo {\n    static let version = \"$GIT_TAG\"\n    static let build = \"$GIT_BUILD\"\n    static let full: String = \"\\(version) (\\(build))\"\n}\nEOF\n\necho \"Generated Version.swift: $GIT_TAG ($GIT_BUILD)\"\n\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FA8E90BB2EFE016A00E664E9 /* Sources */ = {

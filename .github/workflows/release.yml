@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  
 jobs:
   build:
     runs-on: macos-latest
@@ -32,11 +33,14 @@ jobs:
       - name: Build app
         run: |
           export GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          export GIT_BUILD=$(git rev-list --count HEAD)
-          
+          export GIT_BUILD=$(git rev-list --count HEAD || echo "0" )
+          echo "GIT TAG: " ${GIT_TAG} " - GIT BUILD " ${GIT_BUILD}
+
           xcodebuild \
             -scheme kfsNotes \
             -configuration Release \
+            -DAPP_VERSION=\"${GIT_TAG}\" \
+            -DAPP_BUILD=\"${GIT_BUILD}\" \
             -derivedDataPath build
 
       - name: Codesign app
