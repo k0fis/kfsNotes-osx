@@ -1,30 +1,99 @@
-//
-//  AppDelegate.swift
-//  kfsNotes
-//
-//  Created by Pavel Dřímalka on 26.12.2025.
-//
-
 import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    private var allowQuit = false
     
+    var statusItem: NSStatusItem!
 
+    func applicationDidFinishLaunching(_ notification: Notification) {
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        NSApp.setActivationPolicy(.accessory)
+        
+        setupStatusItem()
+        
+        _ = HotKeyManager.shared
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            for window in NSApp.windows {
+                window.orderOut(nil)
+            }
+        }
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    private func setupStatusItem() {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength        )
+
+        if let button = statusItem.button {
+            button.image = NSImage(named: "kfsMenuIcon")
+                button.image?.isTemplate = true
+                button.toolTip = "kfs KB"
+        }
+
+        let menu = NSMenu()
+
+        menu.addItem(
+            NSMenuItem(
+                title: "Save",
+                action: #selector(openSave),
+                keyEquivalent: "s"
+            )
+        )
+
+        menu.addItem(
+            NSMenuItem(
+                title: "Find",
+                action: #selector(openSearch),
+                keyEquivalent: "f"
+            )
+        )
+
+        menu.addItem(.separator())
+
+        menu.addItem(
+            NSMenuItem(
+                title: "Quit",
+                action: #selector(quit),
+                keyEquivalent: ""
+            )
+        )
+
+        let item = NSMenuItem(
+            title: "Focus Search",
+            action: #selector(SearchViewController.focusSearchField),
+            keyEquivalent: "l"
+        )
+        item.keyEquivalentModifierMask = [.command]
+        item.target = nil
+        
+        let mainMenu = NSMenu()
+        NSApp.mainMenu = mainMenu
+
+        let appMenuItem = NSMenuItem()
+        mainMenu.addItem(appMenuItem)
+
+        let appMenu = NSMenu()
+        appMenuItem.submenu = appMenu
+        appMenu.addItem(item)
+        
+        statusItem.menu = menu
     }
 
-    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
-        return true
+    @objc private func openSave() {
+        WindowController.shared.showSave()
     }
 
+    @objc private func openSearch() {
+        WindowController.shared.showSearch()
+    }
 
+    @objc private func quit() {
+        allowQuit = true
+        NSApp.terminate(nil)
+    }
+    
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        return allowQuit ? .terminateNow : .terminateCancel
+    }
 }
-

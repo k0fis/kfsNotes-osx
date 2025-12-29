@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  kfsNotes
 //
-//  Created by Pavel Dřímalka on 26.12.2025.
+//  Created by Pavel Dřímalka on 25.12.2025.
 //
 
 import Cocoa
