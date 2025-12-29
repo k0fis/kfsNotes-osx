@@ -33,6 +33,7 @@ class SaveViewController: NSViewController {
         //textView.font = NSFont.systemFont(ofSize: 13)
         textView.isVerticallyResizable = true
         textView.textContainerInset = NSSize(width: 6, height: 6)
+        textView.allowsDocumentBackgroundColorChange = false
         textView.isAutomaticTextCompletionEnabled = false
         textView.isAutomaticTextReplacementEnabled = false
         textView.isAutomaticQuoteSubstitutionEnabled = false
@@ -98,9 +99,7 @@ class SaveViewController: NSViewController {
         textView.nextKeyView = linkField
         linkField.nextKeyView = tagsField
         tagsField.nextKeyView = noteField
-        noteField.nextKeyView = saveButton
-        saveButton.nextKeyView = closeButton
-        closeButton.nextKeyView = textView
+        noteField.nextKeyView = textView
 
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 12),
