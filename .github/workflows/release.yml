@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+- uses: actions/checkout@v3
+  with:
+    fetch-depth: 0 
+    
 jobs:
   build:
     runs-on: macos-latest
@@ -30,6 +34,9 @@ jobs:
 
       - name: Build app
         run: |
+          export GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          export GIT_BUILD=$(git rev-list --count HEAD)
+          
           xcodebuild \
             -scheme kfsNotes \
             -configuration Release \

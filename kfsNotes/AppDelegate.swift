@@ -52,6 +52,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(findMenu)
 
         menu.addItem(.separator())
+        
+        let infoItem = NSMenuItem(
+            title: "Info",
+            action: #selector(showBuildInfo(_:)),
+            keyEquivalent: ""
+        )
+        infoItem.target = self // target je třída, kde je showBuildInfo
+        menu.addItem(infoItem)
 
         menu.addItem(
             NSMenuItem(
@@ -98,4 +106,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         return allowQuit ? .terminateNow : .terminateCancel
     }
+
+    // MARK: - Menu action
+    @objc func showBuildInfo(_ sender: Any?) {
+        // cesta k SQLite databázi (upravit podle tvého projektu)
+        let sqlitePath : String = SQLiteManager.shared.dbURL.absoluteString;
+        // obsah dialogu
+        let message = """
+        App Version: \(AppInfo.full)
+        SQLite path: \(sqlitePath)
+        """
+
+        // vytvoření alertu
+        let alert = NSAlert()
+        alert.messageText = "kfsNotes Info"
+        alert.informativeText = message
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "OK")
+
+        // zobrazit dialog
+        alert.runModal()
+    }
+
 }

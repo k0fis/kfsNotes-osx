@@ -64,6 +64,8 @@ class SaveViewController: NSViewController {
 
         closeButton.target = self
         closeButton.action = #selector(close)
+        closeButton.keyEquivalent = "w"
+        closeButton.keyEquivalentModifierMask = [.command]
 
         let separator = NSBox()
         separator.boxType = .separator

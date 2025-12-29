@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA8E91772F01D5CF00E664E9 /* SearchInfor.md in Sources */ = {isa = PBXBuildFile; fileRef = FA8E91752F01D5C400E664E9 /* SearchInfor.md */; };
 		FA8E917C2F02AB8200E664E9 /* readme.md in Resources */ = {isa = PBXBuildFile; fileRef = FA8E917B2F02AB7A00E664E9 /* readme.md */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +60,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA8E90CD2EFE016B00E664E9 /* Build configuration list for PBXNativeTarget "kfsNotes" */;
 			buildPhases = (
+				FA31BF9E2F03277C0002BF24 /* Run Script */,
 				FA8E90BB2EFE016A00E664E9 /* Sources */,
 				FA8E90BC2EFE016A00E664E9 /* Frameworks */,
 				FA8E90BD2EFE016A00E664E9 /* Resources */,
@@ -124,12 +124,33 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		FA31BF9E2F03277C0002BF24 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				kfsNotes/Generated/AppInfo.swift,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/bin/bash\nOUTPUT_DIR=\"${SRCROOT}/kfsNotes/Generated\"\nmkdir -p \"$OUTPUT_DIR\"\n\nOUTPUT_FILE=\"$OUTPUT_DIR/AppInfo.swift\"\n\n# Git tag a build\nGIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo \"v0.0.0\")\nGIT_BUILD=$(git rev-list --count HEAD || echo \"0\")\n\n# generuj Swift soubor\ncat > \"$OUTPUT_FILE\" <<EOF\n// This file is auto-generated at build time\nstruct AppInfo {\n    static let version = \"$GIT_TAG\"\n    static let build = \"$GIT_BUILD\"\n    static let full: String = \"\\(version) (\\(build))\"\n}\nEOF\n\necho \"Generated Version.swift: $GIT_TAG ($GIT_BUILD)\"\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FA8E90BB2EFE016A00E664E9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA8E91772F01D5CF00E664E9 /* SearchInfor.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +290,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = kfsNotes;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -276,7 +299,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = kfs.kfsNotes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -302,6 +325,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = kfsNotes;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -309,7 +334,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = kfs.kfsNotes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;

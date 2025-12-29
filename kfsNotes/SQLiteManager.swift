@@ -21,7 +21,7 @@ final class SQLiteManager {
         createTables()
     }
 
-    private var dbURL: URL {
+    var dbURL: URL {
         let fm = FileManager.default
         let dir = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         let appDir = dir.appendingPathComponent("TeamsNotes", isDirectory: true)
