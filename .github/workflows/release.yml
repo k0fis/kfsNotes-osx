@@ -61,3 +61,33 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+            - name: Calculate SHA256
+        run: |
+          shasum -a 256 kfsNotes.app.zip | awk '{print $1}' > sha.txt
+      - name: Checkout Homebrew tap
+        uses: actions/checkout@v4
+        with:
+          repository: k0fis/homebrew-kfsnotes
+          token: ${{ secrets.TAP_GITHUB_TOKEN }}
+          path: tap
+
+      - name: Update cask
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          SHA=$(cat sha.txt)
+
+          CASK="tap/Casks/kfsnotes.rb"
+
+          sed -i '' "s/version \".*\"/version \"${VERSION}\"/" "$CASK"
+          sed -i '' "s/sha256 \".*\"/sha256 \"${SHA}\"/" "$CASK"
+
+      - name: Commit & push cask update
+        run: |
+          cd tap
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add Casks/kfsnotes.rb
+          git commit -m "kfsnotes ${GITHUB_REF#refs/tags/v}"
+          git push
+    
+
