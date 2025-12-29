@@ -24,7 +24,7 @@ final class SQLiteManager {
     var dbURL: URL {
         let fm = FileManager.default
         let dir = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        let appDir = dir.appendingPathComponent("TeamsNotes", isDirectory: true)
+        let appDir = dir.appendingPathComponent("kfsNotes", isDirectory: true)
         try? fm.createDirectory(at: appDir, withIntermediateDirectories: true)
         return appDir.appendingPathComponent("messages.sqlite")
     }

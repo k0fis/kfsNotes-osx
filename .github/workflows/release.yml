@@ -39,9 +39,8 @@ jobs:
           xcodebuild \
             -scheme kfsNotes \
             -configuration Release \
-            -DAPP_VERSION=\"${GIT_TAG}\" \
-            -DAPP_BUILD=\"${GIT_BUILD}\" \
-            -derivedDataPath build
+            -derivedDataPath build \
+            OTHER_SWIFT_FLAGS="-DAPP_VERSION=\"${GIT_TAG}\" -DAPP_BUILD=\"${GIT_BUILD}\" " 
 
       - name: Codesign app
         run: |
