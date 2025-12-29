@@ -17,8 +17,12 @@ codesign --verify --deep --strict "$APP"
 
 ##homebrew
 
+`ditto -c -k --sequesterRsrc --keepParent kfsNotes.app ../kfsNotes_2025-12-29_12-24-00.zip`
+
+
+
 ``` bash
-brew tap k0fis/brews
+brew tap k0fis/kfsnotes
 brew install --cask kfsnotes
 ```
 
