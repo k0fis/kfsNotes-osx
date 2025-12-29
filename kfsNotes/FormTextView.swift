@@ -9,7 +9,48 @@ import Cocoa
 
 final class FormTextView: NSTextView {
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        isRichText = false
+        allowsUndo = true
+
+        backgroundColor = .clear
+        drawsBackground = false
+
+        textColor = .labelColor
+        font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
+
+        typingAttributes = [
+            .foregroundColor: NSColor.labelColor,
+            .font: font!
+        ]
+    }
     
+    override func insertText(_ insertString: Any, replacementRange: NSRange) {
+        let plain: String
+
+        if let attr = insertString as? NSAttributedString {
+            plain = attr.string
+        } else if let str = insertString as? String {
+            plain = str
+        } else {
+            return
+        }
+
+        super.insertText(plain, replacementRange: replacementRange)
+    }
+    
+    override func didChangeText() {
+        super.didChangeText()
+
+        textStorage?.setAttributedString(
+            NSAttributedString(
+                string: string,
+                attributes: typingAttributes
+            )
+        )
+    }
     
     override func keyDown(with event: NSEvent) {
         // TAB
