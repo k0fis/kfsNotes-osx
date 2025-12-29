@@ -11,6 +11,7 @@ final class FormTextView: NSTextView {
         drawsBackground = false
         backgroundColor = .clear
 
+        usesAdaptiveColorMappingForDarkAppearance = false
         textColor = .textColor
         font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
 
