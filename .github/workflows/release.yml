@@ -37,12 +37,13 @@ jobs:
           echo "GIT TAG: " ${GIT_TAG} " - GIT BUILD " ${GIT_BUILD}
           
           cat > "kfsNotes/AppInfo.swift" <<EOF
-struct AppInfo {
-    static let version = "$GIT_TAG"
-    static let build = "$GIT_BUILD"
-    static let full: String = "\(version) (\(build))"
-}
-EOF
+          struct AppInfo {
+            static let version = "$GIT_TAG"
+            static let build = "$GIT_BUILD"
+            static let full: String = "\(version) (\(build))"
+          }
+          EOF
+
           cat kfsNotes/AppInfo.swift
 
           xcodebuild \
