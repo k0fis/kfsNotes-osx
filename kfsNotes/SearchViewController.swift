@@ -212,7 +212,7 @@ final class SearchViewController: NSViewController {
 
         guard let url = URL(string: "https://example.com") else { return menu }
 
-        let apps = NSWorkspace.shared.urlsForApplications(toOpen: url) ?? []
+        let apps = NSWorkspace.shared.urlsForApplications(toOpen: url)
 
         for appURL in apps {
             let name = appURL.deletingPathExtension().lastPathComponent

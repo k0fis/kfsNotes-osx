@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import SwiftUI
 
 final class WindowController : NSObject {
 
@@ -24,10 +25,13 @@ final class WindowController : NSObject {
         )
     }
     
-    func showSave() {
+    func showSave(text: String = "", link: String = "", tags: String = "", note: String = "") {
         if saveWindow == nil {
-            let vc = SaveViewController()
-            saveWindow = makeWindow(vc, title: "Save note", size: NSSize(width: 520, height: 400), id: "kfsSave")
+            let rootView = SaveView(text: text, link: link, tags: tags, note: note) { text, link, tags, note in
+                SQLiteManager.shared.insert(text: text, link: link, tags: tags, note: note)
+            }
+            let hostingController = NSHostingController(rootView: rootView)
+            saveWindow = makeWindow(hostingController, title: "Save note", size: NSSize(width: 520, height: 400), id: "kfsSave")
         }
         bringToFront(saveWindow)
     }
