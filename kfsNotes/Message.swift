@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Message {
+struct Message : Identifiable, Hashable{
     let id: Int
     var text: String
     var link: String

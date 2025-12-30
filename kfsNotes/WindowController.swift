@@ -38,10 +38,25 @@ final class WindowController : NSObject {
 
     func showSearch() {
         if searchWindow == nil {
-            let vc = SearchViewController()
-            searchWindow = makeWindow(vc, title: "Search Notes", size: NSSize(width: 700, height: 450), id: "kfsSearch")
-        }
-        bringToFront(searchWindow)
+
+                let searchView = SearchView(
+                    onClose: { [weak self] in
+                        self?.searchWindow?.close()
+                        self?.searchWindow = nil
+                    }
+                )
+
+                let hostingVC = NSHostingController(rootView: searchView)
+
+                searchWindow = makeWindow(
+                    hostingVC,
+                    title: "Search Notes",
+                    size: NSSize(width: 700, height: 450),
+                    id: "kfsSearch"
+                )
+            }
+
+            bringToFront(searchWindow)
     }
 
     private func makeWindow(_ vc: NSViewController, title: String, size: NSSize, id: String) -> NSWindow {

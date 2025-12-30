@@ -22,7 +22,7 @@ struct SaveView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // Note text
-            Text("Note text").bold()
+            Text("Note text").monospaced()
             
             // Resizable TextEditor s focus highlight
             ZStack {
@@ -42,17 +42,16 @@ struct SaveView: View {
             .frame(maxHeight: .infinity)
 
             // Link
-            Text("Link").bold()
-            TextField("https://...", text: $link)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            Text("Link").monospaced()
+            LinkFieldView(link: $link)
 
             // Tags
-            Text("Tags").bold()
+            Text("Tags").monospaced()
             TextField("deploy, prod", text: $tags)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
 
             // Note field
-            Text("Short note").bold()
+            Text("Short note").monospaced()
             TextField("note", text: $note)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
 
@@ -65,11 +64,11 @@ struct SaveView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
                 .keyboardShortcut("s", modifiers: [.command])
-
+                Spacer()
                 Button("Close") {
                     presentationMode.wrappedValue.dismiss()
                 }
-                .keyboardShortcut(.cancelAction)
+                .keyboardShortcut("w", modifiers: [.command])
             }
         }
         .padding()

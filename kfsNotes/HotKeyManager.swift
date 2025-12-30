@@ -90,9 +90,9 @@ final class HotKeyManager {
                 DispatchQueue.main.async {
                     switch hotKeyID.id {
                     case 1:
-                        AppActions.openSave()
+                        WindowController.shared.showSave()
                     case 2:
-                        AppActions.openSearch()
+                        WindowController.shared.showSearch()
                     default:
                         break
                     }
