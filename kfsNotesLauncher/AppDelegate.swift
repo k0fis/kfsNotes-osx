@@ -11,10 +11,24 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-            let path = "/Applications/kfsNotes.app"
-            NSWorkspace.shared.launchApplication(path)
+        guard let appURL = NSWorkspace.shared.urlForApplication(
+            withBundleIdentifier: "kfs.kfsNotes"
+        ) else {
+            NSApp.terminate(nil)
+            return
+        }
+
+        let config = NSWorkspace.OpenConfiguration()
+        config.activates = false   // neskáče do popředí při loginu
+
+        NSWorkspace.shared.openApplication(
+            at: appURL,
+            configuration: config
+        ) { _, _ in
             NSApp.terminate(nil)
         }
+        
+    }
 
 }
 

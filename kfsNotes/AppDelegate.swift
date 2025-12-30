@@ -116,6 +116,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func enableLaunchAtLogin(_ enable: Bool) {
         let launcherBundleId = "kfs.kfsNotesLauncher"
-        SMLoginItemSetEnabled(launcherBundleId as CFString, enable)
+
+        do {
+            let service = SMAppService.loginItem(identifier: launcherBundleId)
+
+            if enable {
+                try service.register()
+            } else {
+                try service.unregister()
+            }
+        } catch {
+            print("Launch at login failed:", error)
+        }
     }
 }

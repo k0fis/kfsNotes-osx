@@ -57,10 +57,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FA31C0272F042F510002BF24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FA31C0282F042F510002BF24 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		FA31C0312F0455200002BF24 /* kfsNotesLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kfsNotesLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA31C0462F04565A0002BF24 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		FA8E90BF2EFE016A00E664E9 /* kfsNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kfsNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA8E91752F01D5C400E664E9 /* SearchInfor.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SearchInfor.md; sourceTree = "<group>"; };
 		FA8E917B2F02AB7A00E664E9 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
@@ -100,19 +97,8 @@
 		FA31C0262F042F510002BF24 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FA31C0462F04565A0002BF24 /* AppKit.framework */,
-				FA31C0292F042F510002BF24 /* kfsNotesLauncher */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		FA31C0292F042F510002BF24 /* kfsNotesLauncher */ = {
-			isa = PBXGroup;
-			children = (
-				FA31C0272F042F510002BF24 /* Info.plist */,
-				FA31C0282F042F510002BF24 /* main.swift */,
-			);
-			path = kfsNotesLauncher;
 			sourceTree = "<group>";
 		};
 		FA8E90B62EFE016A00E664E9 = {
