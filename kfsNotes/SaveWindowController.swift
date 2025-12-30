@@ -42,9 +42,6 @@ final class SaveViewController: NSViewController, NSTextViewDelegate {
         textView.isRichText = false
         textView.allowsUndo = true
 
-        textView.drawsBackground = true
-        textView.backgroundColor = .textBackgroundColor
-        textView.textColor = .textColor
         textView.font = .systemFont(ofSize: NSFont.systemFontSize)
 
         textView.isAutomaticQuoteSubstitutionEnabled = false
@@ -61,11 +58,15 @@ final class SaveViewController: NSViewController, NSTextViewDelegate {
         textView.importsGraphics = false
         textView.delegate = self
         textView.backgroundColor = .textBackgroundColor
+        textView.insertionPointColor = .labelColor
+        
+        textView.backgroundColor = NSColor.textBackgroundColor.usingColorSpace(.deviceRGB)!
+
         textView.drawsBackground = true
 
-        textView.textColor = .labelColor
-        textView.insertionPointColor = .labelColor
-
+        textView.textColor = NSColor.controlTextColor.usingColorSpace(.deviceRGB)
+        textView.insertionPointColor = NSColor.controlTextColor.usingColorSpace(.deviceRGB)
+        
         textView.font = .systemFont(ofSize: NSFont.systemFontSize)
 
         
