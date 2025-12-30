@@ -59,16 +59,25 @@ final class SaveViewController: NSViewController, NSTextViewDelegate {
         textView.delegate = self
         textView.backgroundColor = .textBackgroundColor
         textView.insertionPointColor = .labelColor
-        
-        textView.backgroundColor = NSColor.textBackgroundColor.usingColorSpace(.deviceRGB)!
 
         textView.drawsBackground = true
-
-        textView.textColor = NSColor.controlTextColor.usingColorSpace(.deviceRGB)
-        textView.insertionPointColor = NSColor.controlTextColor.usingColorSpace(.deviceRGB)
         
         textView.font = .systemFont(ofSize: NSFont.systemFontSize)
 
+        if let appearance = NSApp.effectiveAppearance.bestMatch(from: [.darkAqua, .aqua]) {
+            switch appearance {
+            case .darkAqua:
+                textView.backgroundColor = NSColor(deviceWhite: 0.0, alpha: 1.0) // černá
+                textView.textColor = NSColor(deviceWhite: 1.0, alpha: 1.0) // bílá
+                textView.insertionPointColor = NSColor.green
+            case .aqua:
+                textView.textColor = NSColor(deviceWhite: 0.0, alpha: 1.0) // černá
+                textView.backgroundColor = NSColor(deviceWhite: 1.0, alpha: 1.0) // bílá
+                textView.insertionPointColor = NSColor.green
+            default:
+                break
+            }
+        }
         
         scrollView.documentView = textView
         scrollView.layer?.cornerRadius = 6

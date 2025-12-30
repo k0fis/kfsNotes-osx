@@ -102,6 +102,24 @@ final class SearchViewController: NSViewController {
         tableView.allowsEmptySelection = false
         tableView.allowsMultipleSelection = false
         tableView.focusRingType = .default
+        textView.backgroundColor = NSColor(deviceWhite: 0.0, alpha: 1.0) // černá
+        textView.textColor = NSColor(deviceWhite: 1.0, alpha: 1.0) // bílá
+        textView.insertionPointColor = NSColor.green
+        
+        if let appearance = NSApp.effectiveAppearance.bestMatch(from: [.darkAqua, .aqua]) {
+            switch appearance {
+            case .darkAqua:
+                textView.backgroundColor = NSColor(deviceWhite: 0.0, alpha: 1.0) // černá
+                textView.textColor = NSColor(deviceWhite: 1.0, alpha: 1.0) // bílá
+                textView.insertionPointColor = NSColor.green
+            case .aqua:
+                textView.textColor = NSColor(deviceWhite: 0.0, alpha: 1.0) // černá
+                textView.backgroundColor = NSColor(deviceWhite: 1.0, alpha: 1.0) // bílá
+                textView.insertionPointColor = NSColor.green
+            default:
+                break
+            }
+        }
 
         tableScroll.documentView = tableView
         tableScroll.hasVerticalScroller = true
