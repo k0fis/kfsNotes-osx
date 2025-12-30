@@ -191,8 +191,26 @@ final class SaveViewController: NSViewController, NSTextViewDelegate {
         DispatchQueue.main.async {
             self.view.window?.makeFirstResponder(self.textView)
         }
+        updateColors()
     }
 
+    func updateColors() {
+        if let appearance = view.window?.effectiveAppearance.bestMatch(from: [.darkAqua, .aqua]) {
+            switch appearance {
+            case .aqua:
+                textView.textColor = .white
+                textView.insertionPointColor = .white
+                textView.backgroundColor = .black
+            case .darkAqua:
+                textView.textColor = .black
+                textView.insertionPointColor = .black
+                textView.backgroundColor = .white
+            default: break
+            }
+        }
+    }
+    
+    
     // MARK: - NSTextViewDelegate
     func textView(_ textView: NSTextView,
                   doCommandBy commandSelector: Selector) -> Bool {
