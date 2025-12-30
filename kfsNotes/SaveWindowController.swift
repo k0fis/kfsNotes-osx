@@ -1,9 +1,10 @@
 import Cocoa
 
-class SaveViewController: NSViewController {
+final class SaveViewController: NSViewController, NSTextViewDelegate {
 
-    // UI prvky
-    private let textView = FormTextView()
+    // MARK: - UI
+
+    private let textView = NSTextView()
     private let linkField = NSTextField()
     private let tagsField = NSTextField()
     private let noteField = NSTextField()
@@ -11,48 +12,62 @@ class SaveViewController: NSViewController {
     private let saveButton = FocusableButton(title: "Save", target: nil, action: nil)
     private let closeButton = FocusableButton(title: "Close", target: nil, action: nil)
 
+    // MARK: - Lifecycle
+
     override func loadView() {
-        self.view = NSView()
-        self.view.translatesAutoresizingMaskIntoConstraints = false
+        view = NSView()
         setupUI()
         loadFromClipboard()
     }
 
-    // MARK: - UI
+    // MARK: - UI setup
 
     private func setupUI() {
 
-        // Labels
         let textLabel = FormLabel("Note text")
         let linkLabel = FormLabel("Link")
         let tagsLabel = FormLabel("Tags")
         let noteLabel = FormLabel("Short note")
 
-        // TextView (multiline)
+        // Multiline NSTextField setup
+        let scrollView = NSScrollView()
+        scrollView.hasVerticalScroller = true
+        scrollView.hasHorizontalScroller = false
+        scrollView.autohidesScrollers = true
+        scrollView.borderType = .bezelBorder
+        scrollView.drawsBackground = true
+        scrollView.backgroundColor = .textBackgroundColor
+
+        
         textView.isRichText = false
-        //textView.font = NSFont.systemFont(ofSize: 13)
-        textView.isVerticallyResizable = true
-        textView.textContainerInset = NSSize(width: 6, height: 6)
-        textView.allowsDocumentBackgroundColorChange = false
-        textView.isAutomaticTextCompletionEnabled = false
-        textView.isAutomaticTextReplacementEnabled = false
+        textView.allowsUndo = true
+
+        textView.drawsBackground = true
+        textView.backgroundColor = .textBackgroundColor
+        textView.textColor = .textColor
+        textView.font = .systemFont(ofSize: NSFont.systemFontSize)
+
         textView.isAutomaticQuoteSubstitutionEnabled = false
         textView.isAutomaticDashSubstitutionEnabled = false
+        textView.isAutomaticTextReplacementEnabled = false
         textView.isAutomaticSpellingCorrectionEnabled = false
         textView.isAutomaticDataDetectionEnabled = false
 
-        textView.allowsUndo = true
-        textView.isRichText = false
+        // důležité pro multiline
+        textView.isVerticallyResizable = true
+        textView.isHorizontallyResizable = false
+        textView.textContainer?.widthTracksTextView = true
+        textView.textContainer?.layoutManager?.allowsNonContiguousLayout = false
+        textView.importsGraphics = false
+        textView.delegate = self
+
+        
+        scrollView.documentView = textView
+        scrollView.layer?.cornerRadius = 6
+        scrollView.layer?.masksToBounds = true
 
 
-        let textScroll = NSScrollView()
-        textScroll.documentView = textView
-        textScroll.hasVerticalScroller = true
-        textScroll.borderType = .bezelBorder
-        textScroll.translatesAutoresizingMaskIntoConstraints = false
-        //textScroll.refusesFirstResponder = true //
-
-        // Text fields
+        // Other fields
         linkField.placeholderString = "https://..."
         tagsField.placeholderString = "deploy, prod"
         noteField.placeholderString = "note"
@@ -70,11 +85,10 @@ class SaveViewController: NSViewController {
 
         let separator = NSBox()
         separator.boxType = .separator
-        
-        // Layout
+
         let stack = NSStackView(views: [
             textLabel,
-            textScroll,
+            scrollView,
             linkLabel,
             linkField,
             tagsLabel,
@@ -87,19 +101,10 @@ class SaveViewController: NSViewController {
 
         stack.orientation = .vertical
         stack.spacing = 8
+        stack.alignment = .leading
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.alignment = .left
 
         view.addSubview(stack)
-        
-        let h = textScroll.heightAnchor.constraint(equalToConstant: 140)
-        h.priority = .defaultHigh
-        h.isActive = true
-        
-        textView.nextKeyView = linkField
-        linkField.nextKeyView = tagsField
-        tagsField.nextKeyView = noteField
-        noteField.nextKeyView = textView
 
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 12),
@@ -107,34 +112,24 @@ class SaveViewController: NSViewController {
             stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
             stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -12),
 
-            textScroll.heightAnchor.constraint(equalToConstant: 140)
+            scrollView.heightAnchor.constraint(equalToConstant: 140)
         ])
+
+        // TAB order
+        textView.nextKeyView = linkField
+        linkField.nextKeyView = tagsField
+        tagsField.nextKeyView = noteField
+        noteField.nextKeyView = textView
     }
 
-    // MARK: - Buttons
-    
     private func buttonsStack() -> NSView {
-        let stack = NSStackView(views: [
-            saveButton,
-            closeButton
-        ])
-
+        let stack = NSStackView(views: [saveButton, closeButton])
         stack.orientation = .horizontal
-        stack.alignment = .centerY
         stack.spacing = 8
-
         return stack
     }
 
     // MARK: - Clipboard
-    
-    func extractFirstURL(from text: String) -> URL? {
-        let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-        let range = NSRange(text.startIndex..., in: text)
-        
-        let match = detector?.firstMatch(in: text, options: [], range: range)
-        return match?.url
-    }
 
     private func loadFromClipboard() {
         let pb = NSPasteboard.general
@@ -143,43 +138,59 @@ class SaveViewController: NSViewController {
         if let url = extractFirstURL(from: content) {
             linkField.stringValue = url.absoluteString
         } else {
-          //  textView.string = content
+            textView.string = content
         }
-    }
-    
-    // MARK: - ESC close dialog
-    
-    override func cancelOperation(_ sender: Any?) {
-        close()
     }
 
-    
-    // MARK: -
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        view.window?.standardWindowButton(.closeButton)?.target = self
-        view.window?.standardWindowButton(.closeButton)?.action = #selector(close)
-       
-        DispatchQueue.main.async {
-            self.view.window?.makeFirstResponder(self.textView)
-        }
+    private func extractFirstURL(from text: String) -> URL? {
+        let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let range = NSRange(text.startIndex..., in: text)
+        return detector?.firstMatch(in: text, options: [], range: range)?.url
     }
 
     // MARK: - Actions
 
     @objc private func save() {
         SQLiteManager.shared.insert(
-               text: textView.string,
-               link: linkField.stringValue,
-               tags: tagsField.stringValue,
-               note: noteField.stringValue
-           )
-
-       self.view.window?.close()
+            text: textView.string,
+            link: linkField.stringValue,
+            tags: tagsField.stringValue,
+            note: noteField.stringValue
+        )
+        close()
     }
 
     @objc private func close() {
-        self.view.window?.close()
+        view.window?.close()
     }
-    
+
+    override func cancelOperation(_ sender: Any?) {
+        close()
+    }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        DispatchQueue.main.async {
+            self.view.window?.makeFirstResponder(self.textView)
+        }
+    }
+
+    // MARK: - NSTextViewDelegate
+    func textView(_ textView: NSTextView,
+                  doCommandBy commandSelector: Selector) -> Bool {
+
+        switch commandSelector {
+        case #selector(NSResponder.insertTab(_:)):
+            view.window?.selectNextKeyView(nil)
+            return true
+
+        case #selector(NSResponder.insertBacktab(_:)):
+            view.window?.selectPreviousKeyView(nil)
+            return true
+
+        default:
+            return false
+        }
+    }
+
 }
