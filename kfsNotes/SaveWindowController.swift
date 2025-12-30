@@ -202,8 +202,8 @@ final class SaveViewController: NSViewController, NSTextViewDelegate {
                 textView.insertionPointColor = .white
                 textView.backgroundColor = .black
             case .darkAqua:
-                textView.textColor = .black
-                textView.insertionPointColor = .black
+                textView.textColor = NSColor.blue
+                textView.insertionPointColor = .green
                 textView.backgroundColor = .white
             default: break
             }
