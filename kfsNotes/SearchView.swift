@@ -74,7 +74,7 @@ struct SearchView: View {
                 }
                 selection = results[newIndex].id
             }
-            .onChange(of: selection) { newSelection in
+            .onChange(of: selection) { newSelection, _ in
                 guard let id = newSelection,
                       let msg = results.first(where: { $0.id == id }) else {
                     clearEditor()

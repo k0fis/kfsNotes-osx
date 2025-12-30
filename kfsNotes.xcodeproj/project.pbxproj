@@ -7,33 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA31C03F2F0455DA0002BF24 /* kfsNotesLauncher.app in Resources */ = {isa = PBXBuildFile; fileRef = FA31C0312F0455200002BF24 /* kfsNotesLauncher.app */; };
-		FA31C04B2F04570B0002BF24 /* kfsNotesLauncher.app in Copy Files */ = {isa = PBXBuildFile; fileRef = FA31C0312F0455200002BF24 /* kfsNotesLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FA787B0C2F045F1F006C037D /* kfsNotesLauncher.app in Copy Files */ = {isa = PBXBuildFile; fileRef = FA31C0312F0455200002BF24 /* kfsNotesLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		FA31C0402F0455DA0002BF24 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FA8E90B72EFE016A00E664E9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FA31C0302F0455200002BF24;
-			remoteInfo = kfsNotesLauncher;
-		};
-		FA31C0422F0455E50002BF24 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FA8E90B72EFE016A00E664E9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FA31C0302F0455200002BF24;
-			remoteInfo = kfsNotesLauncher;
-		};
-		FA31C0442F0455FD0002BF24 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FA8E90B72EFE016A00E664E9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FA31C0302F0455200002BF24;
-			remoteInfo = kfsNotesLauncher;
-		};
-		FA31C0482F04565D0002BF24 /* PBXContainerItemProxy */ = {
+		FA787B0A2F045F0D006C037D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FA8E90B72EFE016A00E664E9 /* Project object */;
 			proxyType = 1;
@@ -45,14 +23,14 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		FA31C04A2F0456DA0002BF24 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
-			dstPath = Library/LoginItems;
+			buildActionMask = 12;
+			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
-				FA31C04B2F04570B0002BF24 /* kfsNotesLauncher.app in Copy Files */,
+				FA787B0C2F045F1F006C037D /* kfsNotesLauncher.app in Copy Files */,
 			);
 			name = "Copy Files";
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -159,10 +137,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				FA31C0412F0455DA0002BF24 /* PBXTargetDependency */,
-				FA31C0432F0455E50002BF24 /* PBXTargetDependency */,
-				FA31C0452F0455FD0002BF24 /* PBXTargetDependency */,
-				FA31C0492F04565D0002BF24 /* PBXTargetDependency */,
+				FA787B0B2F045F0D006C037D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				FA8E90C12EFE016A00E664E9 /* kfsNotes */,
@@ -224,7 +199,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA31C03F2F0455DA0002BF24 /* kfsNotesLauncher.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,25 +222,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		FA31C0412F0455DA0002BF24 /* PBXTargetDependency */ = {
+		FA787B0B2F045F0D006C037D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FA31C0302F0455200002BF24 /* kfsNotesLauncher */;
-			targetProxy = FA31C0402F0455DA0002BF24 /* PBXContainerItemProxy */;
-		};
-		FA31C0432F0455E50002BF24 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FA31C0302F0455200002BF24 /* kfsNotesLauncher */;
-			targetProxy = FA31C0422F0455E50002BF24 /* PBXContainerItemProxy */;
-		};
-		FA31C0452F0455FD0002BF24 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FA31C0302F0455200002BF24 /* kfsNotesLauncher */;
-			targetProxy = FA31C0442F0455FD0002BF24 /* PBXContainerItemProxy */;
-		};
-		FA31C0492F04565D0002BF24 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FA31C0302F0455200002BF24 /* kfsNotesLauncher */;
-			targetProxy = FA31C0482F04565D0002BF24 /* PBXContainerItemProxy */;
+			targetProxy = FA787B0A2F045F0D006C037D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -276,6 +235,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -284,6 +244,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -310,6 +271,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -318,6 +280,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
