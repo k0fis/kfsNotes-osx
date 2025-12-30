@@ -2,8 +2,8 @@ import Cocoa
 
 final class FormTextView: NSTextView {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
 
         isRichText = false
         allowsUndo = true
