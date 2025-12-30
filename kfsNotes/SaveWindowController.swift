@@ -60,11 +60,19 @@ final class SaveViewController: NSViewController, NSTextViewDelegate {
         textView.textContainer?.layoutManager?.allowsNonContiguousLayout = false
         textView.importsGraphics = false
         textView.delegate = self
+        textView.backgroundColor = .textBackgroundColor
+        textView.drawsBackground = true
+
+        textView.textColor = .labelColor
+        textView.insertionPointColor = .labelColor
+
+        textView.font = .systemFont(ofSize: NSFont.systemFontSize)
 
         
         scrollView.documentView = textView
         scrollView.layer?.cornerRadius = 6
         scrollView.layer?.masksToBounds = true
+        scrollView.focusRingType = .default
 
 
         // Other fields
