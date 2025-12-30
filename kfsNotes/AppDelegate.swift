@@ -1,5 +1,6 @@
 import Cocoa
 import SwiftUI
+import ServiceManagement
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -14,6 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupMainMenu() // <-- tady přidáme Edit menu
 
         _ = HotKeyManager.shared
+        enableLaunchAtLogin(true)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             for window in NSApp.windows {
@@ -110,5 +112,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         alert.alertStyle = .informational
         alert.addButton(withTitle: "OK")
         alert.runModal()
+    }
+    
+    func enableLaunchAtLogin(_ enable: Bool) {
+        let launcherBundleId = "kfs.kfsNotesLauncher"
+        SMLoginItemSetEnabled(launcherBundleId as CFString, enable)
     }
 }
