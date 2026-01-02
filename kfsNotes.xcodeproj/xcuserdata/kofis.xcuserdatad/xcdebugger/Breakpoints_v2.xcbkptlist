@@ -152,7 +152,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E2CD0BD6-FA4D-4681-8E31-FAF6B8634AF2"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "kfsNotes/MultilineTextField.swift"
@@ -168,7 +168,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "401B6934-1123-49DA-9C34-B84D1C0FC7CA"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "kfsNotes/MultilineTextField.swift"
@@ -184,7 +184,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "4DB8CFAF-1105-4CF4-9D5F-E64DFEDD524C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "kfsNotes/NSTextViewWrapper.swift"
@@ -213,7 +213,7 @@
             <Locations>
                <Location
                   uuid = "937C7B32-EAC2-4CE9-BD27-C9143F2754B1 - 1544d7d487573e41"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "(1) suspend resume partial function for kfsNotes.JoplinExporter.insert(msg: kfsNotes.Message) async throws -&gt; Swift.String"
@@ -227,7 +227,7 @@
                </Location>
                <Location
                   uuid = "937C7B32-EAC2-4CE9-BD27-C9143F2754B1 - 3453992e61c37247"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "(7) suspend resume partial function for kfsNotes.JoplinExporter.insert(msg: kfsNotes.Message) async throws -&gt; Swift.String"
@@ -241,7 +241,7 @@
                </Location>
                <Location
                   uuid = "937C7B32-EAC2-4CE9-BD27-C9143F2754B1 - 912a4490aeee9058"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "(8) suspend resume partial function for kfsNotes.JoplinExporter.insert(msg: kfsNotes.Message) async throws -&gt; Swift.String"
@@ -255,7 +255,7 @@
                </Location>
                <Location
                   uuid = "937C7B32-EAC2-4CE9-BD27-C9143F2754B1 - ca0d701b1ffa2e59"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "(9) suspend resume partial function for kfsNotes.JoplinExporter.insert(msg: kfsNotes.Message) async throws -&gt; Swift.String"
@@ -269,7 +269,7 @@
                </Location>
                <Location
                   uuid = "937C7B32-EAC2-4CE9-BD27-C9143F2754B1 - e2b6f49a5c476182"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "(10) suspend resume partial function for kfsNotes.JoplinExporter.insert(msg: kfsNotes.Message) async throws -&gt; Swift.String"
