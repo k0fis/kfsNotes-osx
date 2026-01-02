@@ -45,10 +45,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
-        let infoItem = NSMenuItem(title: "Info", action: #selector(showBuildInfo(_:)), keyEquivalent: "")
+        // MARK: - utils
+        let menuUtilsItem = NSMenuItem(title: "Utils", action: nil, keyEquivalent: "")
+        let menuUtils = NSMenu(title: "Utils")
+        
+        let infoItem = NSMenuItem(title: "Info", action: #selector(showBuildInfo(_:)), keyEquivalent: "i")
         infoItem.target = self
-        menu.addItem(infoItem)
+        menuUtils.addItem(infoItem)
 
+        let jcItem = NSMenuItem(title: "Joplin Config", action: #selector(showJoplinConfig), keyEquivalent: "j")
+        jcItem.target = self
+        menuUtils.addItem(jcItem)
+
+        
+        menuUtilsItem.submenu = menuUtils
+        menu.addItem(menuUtilsItem)
+        
+        // MARK: -
+        
         menu.addItem(NSMenuItem.separator())
 
         let quitItem = NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q")
@@ -128,5 +142,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } catch {
             print("Launch at login failed:", error)
         }
+    }
+    
+    @objc private func showJoplinConfig() {
+        WindowController.shared.showJoplin();
     }
 }

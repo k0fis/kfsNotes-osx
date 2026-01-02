@@ -14,6 +14,7 @@ final class WindowController : NSObject {
 
     var saveWindow: NSWindow?
     var searchWindow: NSWindow?
+    var joplinWindow: NSWindow?
 
     override init() {
         super.init()
@@ -34,6 +35,16 @@ final class WindowController : NSObject {
             saveWindow = makeWindow(hostingController, title: "Save note", size: NSSize(width: 520, height: 400), id: "kfsSave")
         }
         bringToFront(saveWindow)
+    }
+    
+    func showJoplin() {
+        if joplinWindow == nil {
+            let rootView = JoplinConfigView()
+            let hostingController = NSHostingController(rootView: rootView)
+            joplinWindow = makeWindow(hostingController, title: "Joplin config",
+                                      size: NSSize(width: 520, height: 400), id: "kfsJoplin")
+        }
+        bringToFront(joplinWindow)
     }
 
     func showSearch() {
@@ -73,8 +84,10 @@ final class WindowController : NSObject {
     private func bringToFront(_ window: NSWindow?) {
         guard let w = window else { return }
         NSApp.setActivationPolicy(.regular)
-        NSApp.activate(ignoringOtherApps: true)
-        w.makeKeyAndOrderFront(nil)
+        DispatchQueue.main.async {
+            NSApp.activate(ignoringOtherApps: true)
+            w.makeKeyAndOrderFront(nil)
+        }
     }
     
     @objc private func windowClosed(_ notification: Notification) {
@@ -83,15 +96,15 @@ final class WindowController : NSObject {
         switch window.identifier?.rawValue {
         case "kfsSave":
             saveWindow = nil
-
         case "kfsSearch":
             searchWindow = nil
-
+        case "kfsJoplin":
+            joplinWindow = nil
         default:
             break
         }
 
-        if saveWindow == nil && searchWindow == nil {
+        if saveWindow == nil && searchWindow == nil && joplinWindow == nil {
             NSApp.setActivationPolicy(.accessory)
         }
     }

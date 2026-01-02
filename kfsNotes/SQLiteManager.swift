@@ -8,6 +8,20 @@
 import Foundation
 import SQLite3
 
+enum DatabaseError: Error {
+    case open(message: String)
+    case prepare(message: String)
+    case execute(message: String)
+}
+
+
+extension DatabaseError {
+    static func lastMessage(_ db: OpaquePointer?) -> String {
+        guard let db else { return "Unknown SQLite error" }
+        return String(cString: sqlite3_errmsg(db))
+    }
+}
+
 final class SQLiteManager {
 
     private let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
@@ -44,7 +58,8 @@ final class SQLiteManager {
             link TEXT,
             tags TEXT,
             note TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
 
         CREATE VIRTUAL TABLE IF NOT EXISTS messages_fts
@@ -67,6 +82,24 @@ final class SQLiteManager {
             INSERT INTO messages_fts(rowid, text, tags, note)
             VALUES (new.id, new.text, new.tags, new.note);
         END;
+        
+        CREATE TRIGGER IF NOT EXISTS messages_set_updated_at
+        AFTER UPDATE ON messages
+        BEGIN
+            UPDATE messages
+            SET updated_at = CURRENT_TIMESTAMP
+            WHERE id = NEW.id;
+        END;        
+        
+        CREATE TABLE IF NOT EXISTS external_exports (
+            id INTEGER PRIMARY KEY,
+            message_id INTEGER NOT NULL,
+            system TEXT NOT NULL,
+            external_id TEXT NOT NULL,
+            exported_at INTEGER,
+            UNIQUE(message_id, system)
+        );
+
         """
         exec(sql)
     }
@@ -140,7 +173,7 @@ final class SQLiteManager {
 
         sqlite3_finalize(stmt)
     }
-    
+
     // MARK: - Search
 
     func searchFTS(query: String) -> [Message] {
@@ -149,13 +182,13 @@ final class SQLiteManager {
         let sql: String
         if query.isEmpty {
             sql = """
-            SELECT * FROM messages
+            SELECT id, text, link, tags, note, created_at, updated_at FROM messages
             ORDER BY created_at DESC
             LIMIT 100;
             """
         } else {
             sql = """
-            SELECT m.*
+            SELECT m.id, m.text, m.link, m.tags, m.note, m.created_at, m.updated_at
             FROM messages m
             JOIN messages_fts fts ON fts.rowid = m.id
             WHERE messages_fts MATCH ?
@@ -181,7 +214,8 @@ final class SQLiteManager {
                 link: String(cString: sqlite3_column_text(stmt, 2)),
                 tags: String(cString: sqlite3_column_text(stmt, 3)),
                 note: String(cString: sqlite3_column_text(stmt, 4)),
-                createdAt: String(cString: sqlite3_column_text(stmt, 5))
+                createdAt: String(cString: sqlite3_column_text(stmt, 5)),
+                updatedAt: String(cString: sqlite3_column_text(stmt, 6))
             ))
         }
 
@@ -189,7 +223,155 @@ final class SQLiteManager {
         return results
     }
 
+    // MARK: - select by id
+    func getNote(id: Int) -> Message? {
+        
+        let sql = "SELECT id, text, link, tags, note, created_at, updated_at FROM messages WHERE id = ?;"
+
+        var stmt: OpaquePointer?
+        sqlite3_prepare_v2(db, sql, -1, &stmt, nil)
+        if (sqlite3_bind_int(stmt, 1, Int32(id)) != SQLITE_OK ) {
+            print("Bind error: ", (String(cString: sqlite3_errmsg(db))))
+        }
+        var result : Message?
+        if sqlite3_step(stmt) == SQLITE_ROW {
+            result = Message(
+                id: Int(sqlite3_column_int(stmt, 0)),
+                text: String(cString: sqlite3_column_text(stmt, 1)),
+                link: String(cString: sqlite3_column_text(stmt, 2)),
+                tags: String(cString: sqlite3_column_text(stmt, 3)),
+                note: String(cString: sqlite3_column_text(stmt, 4)),
+                createdAt: String(cString: sqlite3_column_text(stmt, 5)),
+                updatedAt: String(cString: sqlite3_column_text(stmt, 6))
+            )
+        }
+
+        sqlite3_finalize(stmt)
+        return result
+    }
     
     
+    // MARK: - export
+    
+    func externalExport(
+        messageId: Int,
+        system: String
+    ) throws -> ExternalExport? {
+
+        let sql = """
+        SELECT id, message_id, system, external_id, exported_at
+        FROM external_exports
+        WHERE message_id = ? AND system = ?
+        LIMIT 1;
+        """
+
+        var stmt: OpaquePointer?
+        defer { sqlite3_finalize(stmt) }
+
+        guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else {
+            throw DatabaseError.prepare(message: DatabaseError.lastMessage(db))
+        }
+
+        sqlite3_bind_int(stmt, 1, Int32(messageId))
+        sqlite3_bind_text(stmt, 2, system, -1, SQLITE_TRANSIENT)
+
+        guard sqlite3_step(stmt) == SQLITE_ROW else {
+            return nil
+        }
+
+        let exportedAtValue = sqlite3_column_int(stmt, 4)
+
+        return ExternalExport(
+            id: Int(sqlite3_column_int(stmt, 0)),
+            messageId: Int(sqlite3_column_int(stmt, 1)),
+            system: String(cString: sqlite3_column_text(stmt, 2)),
+            externalId: String(cString: sqlite3_column_text(stmt, 3)),
+            exportedAt: exportedAtValue > 0
+                ? Date.fromUnix(Int(exportedAtValue))
+                : nil
+        )
+    }
+
+    
+    func upsertExternalExport(
+        messageId: Int,
+        system: String,
+        externalId: String
+    ) throws {
+
+        let sql = """
+        INSERT INTO external_exports
+        (message_id, system, external_id, exported_at)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(message_id, system)
+        DO UPDATE SET
+            external_id = excluded.external_id,
+            exported_at = excluded.exported_at;
+        """
+
+        var stmt: OpaquePointer?
+        defer { sqlite3_finalize(stmt) }
+
+        guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else {
+            throw DatabaseError.prepare(message: DatabaseError.lastMessage(db))
+        }
+
+        sqlite3_bind_int(stmt, 1, Int32(messageId))
+        sqlite3_bind_text(stmt, 2, system, -1, SQLITE_TRANSIENT)
+        sqlite3_bind_text(stmt, 3, externalId, -1, SQLITE_TRANSIENT)
+        sqlite3_bind_int(stmt, 4, Int32(Date().unixTimestamp))
+
+        guard sqlite3_step(stmt) == SQLITE_DONE else {
+            throw DatabaseError.prepare(message: DatabaseError.lastMessage(db))
+        }
+    }
+    
+    func resetExport(system: String) throws {
+        let sql = """
+        DELETE FROM external_exports
+        WHERE system = ?;
+        """
+
+        var stmt: OpaquePointer?
+        defer { sqlite3_finalize(stmt) }
+
+        guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else {
+            throw DatabaseError.prepare(message: DatabaseError.lastMessage(db))
+        }
+
+        sqlite3_bind_text(stmt, 1, system, -1, SQLITE_TRANSIENT)
+
+        guard sqlite3_step(stmt) == SQLITE_DONE else {
+            throw DatabaseError.prepare(message: DatabaseError.lastMessage(db))
+        }
+    }
+
+    func deleteExternalExport(
+        messageId: Int,
+        system: String
+    ) throws {
+
+        let sql = """
+        DELETE FROM external_exports
+        WHERE message_id = ? AND system = ?;
+        """
+
+        var stmt: OpaquePointer?
+        defer { sqlite3_finalize(stmt) }
+
+        guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else {
+            throw DatabaseError.prepare(message: DatabaseError.lastMessage(db))
+        }
+
+        sqlite3_bind_int(stmt, 1, Int32(messageId))
+        sqlite3_bind_text(stmt, 2, system, -1, SQLITE_TRANSIENT)
+
+        guard sqlite3_step(stmt) == SQLITE_DONE else {
+            throw DatabaseError.prepare(message: DatabaseError.lastMessage(db))
+        }
+    }
+
+    
+    // MARK: -
 
 }
