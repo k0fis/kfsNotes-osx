@@ -83,14 +83,6 @@ final class SQLiteManager {
             VALUES (new.id, new.text, new.tags, new.note);
         END;
         
-        CREATE TRIGGER IF NOT EXISTS messages_set_updated_at
-        AFTER UPDATE ON messages
-        BEGIN
-            UPDATE messages
-            SET updated_at = CURRENT_TIMESTAMP
-            WHERE id = NEW.id;
-        END;        
-        
         CREATE TABLE IF NOT EXISTS external_exports (
             id INTEGER PRIMARY KEY,
             message_id INTEGER NOT NULL,
@@ -150,7 +142,7 @@ final class SQLiteManager {
         }
         
         let sql = """
-        UPDATE messages SET text=?, link=?, tags=?, note=? WHERE id = ?;
+        UPDATE messages SET text=?, link=?, tags=?, note=?, updated_at = CURRENT_TIMESTAMP WHERE id = ?;
         """
         let normalizedTags = msg.tags
             .lowercased()
@@ -328,8 +320,7 @@ final class SQLiteManager {
     
     func resetExport(system: String) throws {
         let sql = """
-        DELETE FROM external_exports
-        WHERE system = ?;
+        DELETE FROM external_exports WHERE system = ?;
         """
 
         var stmt: OpaquePointer?
@@ -352,8 +343,7 @@ final class SQLiteManager {
     ) throws {
 
         let sql = """
-        DELETE FROM external_exports
-        WHERE message_id = ? AND system = ?;
+        DELETE FROM external_exports WHERE message_id = ? AND system = ?;
         """
 
         var stmt: OpaquePointer?

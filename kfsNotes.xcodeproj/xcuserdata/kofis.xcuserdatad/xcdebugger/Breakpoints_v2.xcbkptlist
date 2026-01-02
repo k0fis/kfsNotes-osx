@@ -14,8 +14,8 @@
             filePath = "kfsNotes/SQLiteManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "insert(text:link:tags:note:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "kfsNotes/SQLiteManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "update(msg:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "kfsNotes/SQLiteManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "searchFTS(query:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "kfsNotes/SQLiteManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "searchFTS(query:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "kfsNotes/SQLiteManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "searchFTS(query:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -210,78 +210,6 @@
             endingLineNumber = "23"
             landmarkName = "insert(msg:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "937C7B32-EAC2-4CE9-BD27-C9143F2754B1 - 1544d7d487573e41"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for kfsNotes.JoplinExporter.insert(msg: kfsNotes.Message) async throws -&gt; Swift.String"
-                  moduleName = "kfsNotes.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kofis/src/kfs/kfsNotes/kfsNotes/joplin/JoplinExporter.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23">
-               </Location>
-               <Location
-                  uuid = "937C7B32-EAC2-4CE9-BD27-C9143F2754B1 - 3453992e61c37247"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(7) suspend resume partial function for kfsNotes.JoplinExporter.insert(msg: kfsNotes.Message) async throws -&gt; Swift.String"
-                  moduleName = "kfsNotes.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kofis/src/kfs/kfsNotes/kfsNotes/joplin/JoplinExporter.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23">
-               </Location>
-               <Location
-                  uuid = "937C7B32-EAC2-4CE9-BD27-C9143F2754B1 - 912a4490aeee9058"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(8) suspend resume partial function for kfsNotes.JoplinExporter.insert(msg: kfsNotes.Message) async throws -&gt; Swift.String"
-                  moduleName = "kfsNotes.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kofis/src/kfs/kfsNotes/kfsNotes/joplin/JoplinExporter.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23">
-               </Location>
-               <Location
-                  uuid = "937C7B32-EAC2-4CE9-BD27-C9143F2754B1 - ca0d701b1ffa2e59"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(9) suspend resume partial function for kfsNotes.JoplinExporter.insert(msg: kfsNotes.Message) async throws -&gt; Swift.String"
-                  moduleName = "kfsNotes.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kofis/src/kfs/kfsNotes/kfsNotes/joplin/JoplinExporter.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23">
-               </Location>
-               <Location
-                  uuid = "937C7B32-EAC2-4CE9-BD27-C9143F2754B1 - e2b6f49a5c476182"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(10) suspend resume partial function for kfsNotes.JoplinExporter.insert(msg: kfsNotes.Message) async throws -&gt; Swift.String"
-                  moduleName = "kfsNotes.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kofis/src/kfs/kfsNotes/kfsNotes/joplin/JoplinExporter.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -506,6 +434,68 @@
             endingLineNumber = "222"
             landmarkName = "copyMessageAText()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "69FB0F2B-B968-437A-86B1-A8858C68B887"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "kfsNotes/SQLiteManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "update(msg:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "489BF55E-6666-4DA4-8881-44B3427D2C0F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "kfsNotes/SQLiteManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
+            landmarkName = "update(msg:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "489BF55E-6666-4DA4-8881-44B3427D2C0F - cb9834c37abe5add"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "kfsNotes.SQLiteManager.update(msg: kfsNotes.Message) -&gt; ()"
+                  moduleName = "kfsNotes.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kofis/src/kfs/kfsNotes/kfsNotes/SQLiteManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "170"
+                  endingLineNumber = "170">
+               </Location>
+               <Location
+                  uuid = "489BF55E-6666-4DA4-8881-44B3427D2C0F - cb9834c37abe5925"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "kfsNotes.SQLiteManager.update(msg: kfsNotes.Message) -&gt; ()"
+                  moduleName = "kfsNotes.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kofis/src/kfs/kfsNotes/kfsNotes/SQLiteManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

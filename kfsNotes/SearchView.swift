@@ -219,9 +219,9 @@ struct SearchView: View {
     }
     
     private func copyMessageAText() {
-        guard let msg2 = selectedMessage else { return }
+        guard let msg2 = selectedMessage?.id else { return }
         saveChanges()
-        guard let msg = SQLiteManager.shared.getNote(id: msg2.id) else { return }
+        guard let msg = SQLiteManager.shared.getNote(id: msg2) else { return }
         loadEditor(msg)
         let pb = NSPasteboard.general
         do {
@@ -299,16 +299,19 @@ struct SearchView: View {
     }
 
     private func saveChanges() {
-        guard var msg = selectedMessage else { return }
+        guard var msg = selectedMessage else {
+            print ("Cannot save")
+            return
+        }
         msg.text = text
         msg.tags = tags
         msg.link = link
         msg.note = note
         SQLiteManager.shared.update(msg: msg)
-        //performSearch()
         if let index = results.firstIndex(where: { $0.id == msg.id }) {
             results[index] = msg
         }
+        selectedMessage = msg
     }
 
     private func openLink() {
